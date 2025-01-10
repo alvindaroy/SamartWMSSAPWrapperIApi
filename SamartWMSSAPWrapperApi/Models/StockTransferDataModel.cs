@@ -38,10 +38,10 @@ namespace SamartWMSSAPWrapperApi.Model
                     };
                     StockTransfers model = JsonConvert.DeserializeObject<StockTransfers>(document, settings);
 
-                    var createdStockTransfer = await servicelayer.Request("StockTransfers").PostAsync<System.Dynamic.ExpandoObject>(model);
+                    var createdStockTransfer = await servicelayer.Request("StockTransfers").PostAsync<dynamic>(model);
 
                     serviceResponse.Success = true;
-                    serviceResponse.Data = JsonConvert.SerializeObject(createdStockTransfer);
+                    serviceResponse.Data = System.Text.Json.JsonSerializer.Serialize(createdStockTransfer);
                 }
                 else
                 {
@@ -81,10 +81,10 @@ namespace SamartWMSSAPWrapperApi.Model
 
                     await servicelayer.Request($"InventoryTransferRequests({id})").PatchAsync(model);
 
-                    var updatedTransferRequest = await servicelayer.Request($"InventoryTransferRequests({id})").GetAsync<System.Dynamic.ExpandoObject>();
+                    var updatedTransferRequest = await servicelayer.Request($"InventoryTransferRequests({id})").GetAsync<dynamic>();
 
                     serviceResponse.Success = true;
-                    serviceResponse.Data = JsonConvert.SerializeObject(updatedTransferRequest);
+                    serviceResponse.Data = System.Text.Json.JsonSerializer.Serialize(updatedTransferRequest);
                 }
                 else
                 {

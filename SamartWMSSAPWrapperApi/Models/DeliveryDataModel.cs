@@ -39,10 +39,10 @@ namespace SamartWMSSAPWrapperApi.Model
 
                     Log.Logger.Information("Payload: " + JsonConvert.SerializeObject(model));
 
-                    var createdStockTransfer = await servicelayer.Request("DeliveryNotes").PostAsync<System.Dynamic.ExpandoObject>(model);
+                    var createdStockTransfer = await servicelayer.Request("DeliveryNotes").PostAsync<dynamic>(model);
 
                     serviceResponse.Success = true;
-                    serviceResponse.Data = JsonConvert.SerializeObject(createdStockTransfer);
+                    serviceResponse.Data = System.Text.Json.JsonSerializer.Serialize(createdStockTransfer);
                     await servicelayer.LogoutAsync();
                 }
                 else
@@ -87,10 +87,10 @@ namespace SamartWMSSAPWrapperApi.Model
 
                     await servicelayer.Request($"Orders({id})").PatchAsync(model);
 
-                    var updatesOrders = await servicelayer.Request($"Orders({id})").GetAsync<System.Dynamic.ExpandoObject>();
+                    dynamic updatesOrders = await servicelayer.Request($"Orders({id})").GetAsync<dynamic>();
 
                     serviceResponse.Success = true;
-                    serviceResponse.Data = JsonConvert.SerializeObject(updatesOrders); 
+                    serviceResponse.Data = System.Text.Json.JsonSerializer.Serialize(updatesOrders); 
                     await servicelayer.LogoutAsync();
                 }
                 else
@@ -120,10 +120,10 @@ namespace SamartWMSSAPWrapperApi.Model
                 {
                     await servicelayer.Request($"Orders({id})/Cancel").PostAsync();
 
-                    var updatesOrders = await servicelayer.Request($"Orders({id})").GetAsync<System.Dynamic.ExpandoObject>();
+                    var updatesOrders = await servicelayer.Request($"Orders({id})").GetAsync<dynamic>();
 
                     serviceResponse.Success = true;
-                    serviceResponse.Data = JsonConvert.SerializeObject(updatesOrders);
+                    serviceResponse.Data = System.Text.Json.JsonSerializer.Serialize(updatesOrders);
                     await servicelayer.LogoutAsync();
                 }
                 else
